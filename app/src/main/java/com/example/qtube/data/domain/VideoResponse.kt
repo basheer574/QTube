@@ -3,4 +3,5 @@ import com.google.gson.annotations.SerializedName
 
 data class VideoResponse (
     @SerializedName("feed") val feed: List<Feeds>?,
+    val feeds: List<Feeds>?
 )

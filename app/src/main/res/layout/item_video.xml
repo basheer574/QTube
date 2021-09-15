@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/duration_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="7:33"

@@ -4,6 +4,7 @@ import VideoResponse
 import android.util.Log
 import com.example.jsonparser.data.Items
 import com.example.qtube.data.domain.Feeds
+import com.example.qtube.data.domain.VideoDetails
 import com.google.gson.Gson
 import okhttp3.*
 import java.io.IOException
@@ -15,6 +16,9 @@ object DataManager {
     val videoList = mutableListOf<VideoResponse>()
     val videos :List<VideoResponse> get() = videoList
 
+    val videoDetailsList = mutableListOf<VideoDetails>()
+    val videosDetails: List<VideoDetails> get() = videoDetailsList
+
     val feedsList = mutableListOf<Feeds>()
     val feeds:List<Feeds> get() = feedsList
 
@@ -24,9 +28,12 @@ object DataManager {
     val client = OkHttpClient()
     //End region
 
-    private fun addVideo(videoResponse: VideoResponse) : VideoResponse{
+    fun addVideoDetails(videoDetails: VideoDetails){
+        videoDetailsList.add(videoDetails)
+    }
+
+    fun addVideo(videoResponse: VideoResponse) {
         videoList.add(videoResponse)
-        return VideoResponse(feeds)
     }
     fun addFeeds(feeds: Feeds){
         feedsList.add(feeds)
@@ -35,9 +42,8 @@ object DataManager {
         itemsList.add(items)
     }
 
-
     //This function parse the data from json and store it in lists.
-    fun parser(jsonUrl: String) : List<VideoResponse> {
+    fun parser(jsonUrl: String) {
         cleanJson(jsonUrl)
         val request = Request.Builder().url(jsonUrl).build()
 
@@ -63,15 +69,13 @@ object DataManager {
                     val itemDuration= response.feed?.joinToString { it.items?.joinToString { it.duration.toString() }.toString() }
                     val itemArt = response.feed?.joinToString { it.items?.joinToString { it.art.toString() }.toString() }
 
-                    addItems(Items(itemId,itemYear,itemDuration,itemTitle,itemDirector,itemDescription,itemUrl,itemArt))
-                    addFeeds(Feeds(idFeed,titleFeed,descriptionFeed,imageFeed, items))
-                    addVideo(VideoResponse(feeds))
-
-                    Log.i("testTag", videos.toString())
+                    //addItems(Items(itemId,itemYear,itemDuration,itemTitle,itemDirector,itemDescription,itemUrl,itemArt))
+                    //addFeeds(Feeds(idFeed,titleFeed,descriptionFeed,imageFeed, items))
+                    addVideoDetails(VideoDetails(itemTitle,itemDuration,itemArt,imageFeed,itemUrl))
+                    Log.i("testTag", videosDetails.toString())
                 }
             }
         })
-        return videos
     }
 
     //This function clean the json from unwanted information
@@ -82,6 +86,5 @@ object DataManager {
     fun itemsSize() = items.size
     fun feedsSize() = feeds.size
     fun videosSize() = videos.size
-
-
+    fun videosDetailsSize() = videoList.size
 }

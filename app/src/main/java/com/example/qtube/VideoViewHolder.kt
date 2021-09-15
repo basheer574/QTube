@@ -13,5 +13,4 @@ class VideoViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
     val imageprovile=itemView.findViewById<ImageView>(R.id.profile)
     val imagemain=itemView.findViewById<ImageView>(R.id.main_image)
     val imageplay=itemView.findViewById<ImageView>(R.id.play)
-
 }

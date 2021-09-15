@@ -1,36 +1,31 @@
 package com.example.qtube
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.qtube.data.DataManager
+import com.example.qtube.data.domain.VideoDetails
+import com.example.qtube.databinding.ItemVideoBinding
 
-class VideoAdapter(private var list: List<Video>,val listener:VideoIntectionListener):RecyclerView.Adapter<VideoViewHolder>() {
+class VideoAdapter(private var list: List<VideoDetails>,val listener:VideoIntectionListener):RecyclerView.Adapter<VideoAdapter.VideoHolder>() {
 
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoHolder {
        val view= LayoutInflater.from(parent.context).inflate(R.layout.item_video,parent,false)
-      return VideoViewHolder(view)
+      return VideoHolder(view)
     }
 
-    override fun onBindViewHolder(holder: VideoViewHolder, position: Int) {
-      val currentvideo=list[position]
+    override fun onBindViewHolder(holder: VideoHolder, position: Int) {
+      val currentVideo = list[position]
         holder.apply {
-          Title.text=currentvideo.texttitle
-            Time1.text=currentvideo.texttime.toString()
-            Option.text=currentvideo.textoption
-            Title.setOnClickListener{
-                listener.onclicktitle(currentvideo.texttitle)
-
+            binding?.title.text = currentVideo.title
             }
         }
-    }
-   fun setData(newList: List<Video>){
-       val diffResult=DiffUtil.calculateDiff(VideoDiffutil(list,newList))
-       list=newList
-      diffResult.dispatchUpdatesTo(this)
-   }
-    override fun getItemCount()=list.size
 
+    override fun getItemCount(): Int = list.size
+
+    class VideoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val binding = ItemVideoBinding.bind(itemView)
+    }
 }

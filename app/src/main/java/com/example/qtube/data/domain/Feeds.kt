@@ -9,5 +9,4 @@ data class Feeds (
     @SerializedName("description") val description: String?,
     @SerializedName("image") val image: String?,
     @SerializedName("items") val items: List<Items>?
-
 )
